@@ -10,6 +10,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     (r'^accounts/', include('allauth.urls')),
-    url(r'^api/v1/walks/$', 'walks.views.walk_list_api'),
+    url(r'^api/v1/walks$', 'walks.views.walk_list_api'),
     url(r'^', "walks.views.main"),
 )

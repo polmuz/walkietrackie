@@ -14,3 +14,8 @@ class Walk(models.Model):
     time = models.IntegerField()
     date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return u"Walk: (distance:{}) (time:{}) (date:{})".format(
+            self.distance, self.time, self.date
+        )

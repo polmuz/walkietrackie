@@ -11,7 +11,8 @@ from .serializers import WalkSerializer
 
 @login_required
 def main(request):
-    return render(request, "walks/main.html", {})
+    walks = Walk.objects.filter(user=request.user)
+    return render(request, "walks/main.html", {'walks': walks})
 
 
 @api_view(['GET', 'POST'])
