@@ -87,6 +87,13 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
 ROOT_URLCONF = 'walkietrackie.urls'
 
 WSGI_APPLICATION = 'walkietrackie.wsgi.application'
