@@ -1,14 +1,13 @@
 
 var myApp = angular.module('myApp',["ngResource", "ngCookies"]).run(
   function($http, $resource, $cookies) {
-    $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
-    $http.defaults.headers.put['X-CSRFToken'] = $cookies.csrftoken;
+    $http.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken;
   }
 );
 
 myApp.controller('WalksController', ['$scope', '$resource', function($scope, $resource) {
   var Walk = $resource(
-    '/api/v1/walks/', null,
+    '/api/v1/walks/:pk', {pk: "@pk"},
     {
       'update': { method:'PUT' }
     }
@@ -16,14 +15,54 @@ myApp.controller('WalksController', ['$scope', '$resource', function($scope, $re
 
   $scope.walks = Walk.query();
   $scope.newWalk = {};
+  $scope.dateFilter = {};
+
+  $scope.refreshWalks = function() {
+    $scope.walks = Walk.query();
+  };
 
   $scope.saveNewWalk = function() {
     var walk = new Walk($scope.newWalk);
     walk.$save(function(){
       $scope.newWalk = {};
-      $scope.walks = Walk.query();
+      $scope.refreshWalks();
     });
   }
+
+  $scope.removeWalk = function(walk) {
+    walk.$remove();
+    $scope.refreshWalks();
+  };
+
+  $scope.clearDateFilter = function() {
+    $scope.dateFilter = {};
+  };
+
+  $scope.betweenFilter = function(prop, range){
+    return function(item){
+      if (range.from && range.to) {
+        if (item[prop] >= range.from && item[prop] <= range.to) {
+          return true;
+        }
+
+        return false;
+      }
+
+      if (range.from && !range.to && item[prop] >= range.from) {
+        return true;
+      }
+
+      if (range.to && !range.from && item[prop] <= range.to) {
+        return true;
+      }
+
+      if (!range.to && !range.from) {
+        return true;
+      }
+
+      return false;
+    }
+}
 }]);
 
 myApp.controller("WalkController", ["$scope", function($scope){
@@ -36,5 +75,9 @@ myApp.controller("WalkController", ["$scope", function($scope){
   $scope.save = function() {
     $scope.editMode = false;
     $scope.walk.$update();
+  };
+
+  $scope.remove = function() {
+    $scope.removeWalk($scope.walk);
   };
 }]);

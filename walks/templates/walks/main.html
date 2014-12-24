@@ -22,8 +22,9 @@
                 <tr>
                     <td><!-- Edit column filler --></td>
                     <td>Date</td>
-                    <td>Distance</td>
-                    <td>Time</td>
+                    <td>Distance (meters)</td>
+                    <td>Time (seconds)</td>
+                    <td>Avg. Speed (m/s)</td>
                     <td><!-- Actions column filler --></td>
                 </tr>
             </thead>
@@ -39,11 +40,29 @@
                     <td>
                         <input type="text" class="form-control" name="time" ng-model="newWalk.time">
                     </td>
+                    <td></td>
                     <td>
                         <button class="btn" ng-click="saveNewWalk()">Save</button>
                     </td>
                 </tr>
-                <tr ng-repeat="walk in walks" ng-controller="WalkController">
+
+                <tr>
+                    <td></td>
+                    <td>Filter by date:</td>
+                    <td>
+                        <input type="text" class="form-control" name="from" ng-model="dateFilter.from">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="to" ng-model="dateFilter.to">
+                    </td>
+                    <td></td>
+                    <td>
+                        <button
+                            class="btn"
+                            ng-click="clearDateFilter()">Clear</button>
+                    </td>
+                </tr>
+                <tr ng-repeat="walk in walks | filter:betweenFilter('date', dateFilter)" ng-controller="WalkController">
                     <td>
                         <button
                             class="btn"
@@ -67,7 +86,14 @@
                         <span ng-hide="editMode">{{ walk.time }}</span>
                         <input ng-show="editMode" type="text" class="form-control" name="time" ng-model="walk.time">
                     </td>
-                    <td></td>
+                    <td>
+                        {{ walk.distance/walk.time | number: 2 }}
+                    </td>
+                    <td>
+                        <button
+                            class="btn"
+                            ng-click="remove()">X</button>
+                    </td>
                 </tr>
             </tbody>
 

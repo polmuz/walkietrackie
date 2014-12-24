@@ -15,7 +15,7 @@ def main(request):
     return render(request, "walks/main.html", {'walks': walks})
 
 
-@api_view(['GET', 'POST', 'PUT'])
+@api_view(['GET', 'POST'])
 @permission_classes((IsAuthenticated,))
 def walk_list_api(request):
     """
@@ -34,10 +34,18 @@ def walk_list_api(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'PUT':
-        walk = get_object_or_404(Walk, pk=request.data['pk'], user=request.user)
+
+@api_view(['PUT', 'DELETE'])
+@permission_classes((IsAuthenticated,))
+def walk_detail(request, pk):
+    if request.method == 'PUT':
+        walk = get_object_or_404(Walk, pk=pk, user=request.user)
         serializer = WalkSerializer(walk, data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == "DELETE":
+        walk = get_object_or_404(Walk, pk=pk, user=request.user)
+        walk.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

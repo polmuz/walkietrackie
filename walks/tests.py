@@ -66,7 +66,7 @@ class WalkApiV1TestCase(TestCase):
         )
 
         r = self.client.put(
-            "/api/v1/walks",
+            "/api/v1/walks/1",
             json.dumps({
                 'time': 601,
                 'distance': 200,
@@ -87,3 +87,32 @@ class WalkApiV1TestCase(TestCase):
                 u'pk': 1
             }]
         )
+
+    def test_delete_walks(self):
+        self.client.login(username="myuser", password="mypassword")
+
+        self.client.post("/api/v1/walks",
+                         {
+                             'time': 600,
+                             'distance': 100,
+                             'date': '2014-01-01T00:00'
+                         }
+        )
+
+        r = self.client.get("/api/v1/walks")
+        self.assertEqual(r.status_code, 200)
+        self.assertJSONEqual(
+            r.content,
+            [{
+                u'date': u'2014-01-01T00:00:00Z',
+                u'distance': 100.0,
+                u'time': 600,
+                u'pk': 1
+            }]
+        )
+
+        r = self.client.delete("/api/v1/walks/1")
+
+        r = self.client.get("/api/v1/walks")
+        self.assertEqual(r.status_code, 200)
+        self.assertJSONEqual(r.content, [])
