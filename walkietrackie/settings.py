@@ -51,6 +51,9 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
 
+    # django-rest-framework
+    'rest_framework.authtoken',
+
     'walks',
 )
 
@@ -91,6 +94,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     )
 }
 

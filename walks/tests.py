@@ -13,6 +13,31 @@ class WalkApiV1TestCase(TestCase):
         r = self.client.get("/api/v1/walks")
         self.assertEqual(r.status_code, 401)
 
+    def test_token_auth(self):
+        """
+        Verify that token based authentication works as expected
+        """
+        r = self.client.post(
+            "/api/v1/token-auth",
+            {
+                'username': 'myuser',
+                'password': 'mypassword'
+            }
+        )
+
+        token = json.loads(r.content)['token']
+
+        # with token
+        r = self.client.get(
+            "/api/v1/walks",
+            HTTP_AUTHORIZATION="Token " + token
+        )
+        self.assertEqual(r.status_code, 200)
+
+        # without token
+        r = self.client.get("/api/v1/walks")
+        self.assertEqual(r.status_code, 401)
+
     def test_empty_walks(self):
         self.client.login(username="myuser", password="mypassword")
         r = self.client.get("/api/v1/walks")
