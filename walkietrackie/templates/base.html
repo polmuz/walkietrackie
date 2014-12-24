@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <title>WalkieTrackie</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+        <style>
+         .container-fluid {
+             max-width: 800px;
+         }
+
+         .navbar {
+             border-radius: 0;
+         }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        WalkieTrackie
+                    </a>
+                </div>
+                {% if user.is_authenticated %}
+                <p class="navbar-text navbar-right">
+                    <a href="{% url 'account_logout' %}" class="navbar-link">
+                        Logout
+                    </a>
+                </p>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="container-fluid">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </body>
+</html>

@@ -1,7 +1,7 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 
 @login_required
 def main(request):
-    return render_to_response("walks/main.html", {})
+    return render(request, "walks/main.html", {})
