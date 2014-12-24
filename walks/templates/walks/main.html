@@ -10,6 +10,7 @@
         src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular-resource.js"></script>
 <script type="text/javascript"
         src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular-cookies.js"></script>
+<script type="text/javascript" src="{% static 'walks/date.format.js' %}"></script>
 <script type="text/javascript" src="{% static 'walks/main.js' %}"></script>
 {% endblock extra-head %}
 
@@ -98,6 +99,15 @@
             </tbody>
 
         </table>
+
+        <div class="weeks-avg">
+            <h4>
+                Weekly average speed & average distance per jog
+            </h4>
+            <p class="week" ng-repeat="(week, stats) in weekStats">
+                <b>{{ week }}</b> {{ stats.distance/stats.time | number: 2 }}m/s {{ stats.distance/stats.walks }} meters
+            </p>
+        </div>
     </div>
     {% endverbatim %}
 </div>
