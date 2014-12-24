@@ -3,6 +3,13 @@
 {% load staticfiles %}
 
 {% block extra-head %}
+
+<style>
+  .walks td span {
+    padding: 6px 0;
+    display: inline-block;
+  }
+</style>
 <script type="text/javascript"
         src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js"></script>
 
@@ -33,13 +40,13 @@
                 <tr>
                     <td></td>
                     <td>
-                        <input type="text" class="form-control" name="date" ng-model="newWalk.date">
+                        <input type="text" class="form-control" name="date" ng-model="newWalk.date" placeholder="YYYY-MM-DD">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="distance" ng-model="newWalk.distance">
+                        <input type="text" class="form-control" name="distance" ng-model="newWalk.distance" placeholder="meters">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="time" ng-model="newWalk.time">
+                        <input type="text" class="form-control" name="time" ng-model="newWalk.time" placeholder="Seconds">
                     </td>
                     <td></td>
                     <td>
@@ -49,12 +56,12 @@
 
                 <tr>
                     <td></td>
-                    <td>Filter by date:</td>
+                    <td><span>Filter by date:</span></td>
                     <td>
-                        <input type="text" class="form-control" name="from" ng-model="dateFilter.from">
+                        <input type="text" class="form-control" name="from" ng-model="dateFilter.from" placeholder="from">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="to" ng-model="dateFilter.to">
+                        <input type="text" class="form-control" name="to" ng-model="dateFilter.to" placeholder="to">
                     </td>
                     <td></td>
                     <td>
@@ -76,7 +83,7 @@
 
                     </td>
                     <td>
-                        <span ng-hide="editMode">{{ walk.date }}</span>
+                        <span ng-hide="editMode">{{ walk.date | date:'yyyy-MM-dd' }}</span>
                         <input ng-show="editMode" type="text" class="form-control" name="date" ng-model="walk.date">
                     </td>
                     <td>
@@ -88,7 +95,9 @@
                         <input ng-show="editMode" type="text" class="form-control" name="time" ng-model="walk.time">
                     </td>
                     <td>
-                        {{ walk.distance/walk.time | number: 2 }}
+                        <span>
+                            {{ walk.distance/walk.time | number: 2 }}
+                        </span>
                     </td>
                     <td>
                         <button
