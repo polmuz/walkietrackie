@@ -20,6 +20,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <td><!-- Edit column filler --></td>
                     <td>Date</td>
                     <td>Distance</td>
                     <td>Time</td>
@@ -28,6 +29,7 @@
             </thead>
             <tbody>
                 <tr>
+                    <td></td>
                     <td>
                         <input type="text" class="form-control" name="date" ng-model="newWalk.date">
                     </td>
@@ -41,10 +43,30 @@
                         <button class="btn" ng-click="saveNewWalk()">Save</button>
                     </td>
                 </tr>
-                <tr ng-repeat="walk in walks">
-                    <td>{{ walk.date }}</td>
-                    <td>{{ walk.distance }}</td>
-                    <td>{{ walk.time }}</td>
+                <tr ng-repeat="walk in walks" ng-controller="WalkController">
+                    <td>
+                        <button
+                            class="btn"
+                            ng-hide="editMode"
+                            ng-click="edit()">Edit</button>
+                        <button
+                            class="btn"
+                            ng-show="editMode"
+                            ng-click="save()">Save</button>
+
+                    </td>
+                    <td>
+                        <span ng-hide="editMode">{{ walk.date }}</span>
+                        <input ng-show="editMode" type="text" class="form-control" name="date" ng-model="walk.date">
+                    </td>
+                    <td>
+                        <span ng-hide="editMode">{{ walk.distance }}</span>
+                        <input ng-show="editMode" type="text" class="form-control" name="distance" ng-model="walk.distance">
+                    </td>
+                    <td>
+                        <span ng-hide="editMode">{{ walk.time }}</span>
+                        <input ng-show="editMode" type="text" class="form-control" name="time" ng-model="walk.time">
+                    </td>
                     <td></td>
                 </tr>
             </tbody>

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import status
@@ -15,7 +15,7 @@ def main(request):
     return render(request, "walks/main.html", {'walks': walks})
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'PUT'])
 @permission_classes((IsAuthenticated,))
 def walk_list_api(request):
     """
@@ -29,6 +29,14 @@ def walk_list_api(request):
 
     elif request.method == 'POST':
         serializer = WalkSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'PUT':
+        walk = get_object_or_404(Walk, pk=request.data['pk'], user=request.user)
+        serializer = WalkSerializer(walk, data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
