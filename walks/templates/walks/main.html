@@ -13,12 +13,26 @@
 
 {% block content %}
 <div class="main-app" ng-app="myApp">
-  <div class="walks" ng-controller="WalksController">
-    <div class="walk" ng-repeat="walk in walks">
-      {% verbatim %}
-        {{ walk }}
-      {% endverbatim %}
+    {% verbatim %}
+    <div class="walks" ng-controller="WalksController">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Date</td>
+                    <td>Distance</td>
+                    <td>Time</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="walk in walks">
+                    <td>{{ walk.date }}</td>
+                    <td>{{ walk.distance }}</td>
+                    <td>{{ walk.time }}</td>
+                </tr>
+            </tbody>
+
+        </table>
     </div>
-  </div>
+    {% endverbatim %}
 </div>
 {% endblock content %}

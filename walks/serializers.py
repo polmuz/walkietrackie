@@ -6,4 +6,4 @@ from .models import Walk
 class WalkSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Walk
-        fields = ('distance', 'time', 'date',)
+        fields = ('distance', 'time', 'date', 'pk')
