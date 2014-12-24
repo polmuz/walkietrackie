@@ -8,6 +8,8 @@
 
 <script type="text/javascript"
         src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular-resource.js"></script>
+<script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular-cookies.js"></script>
 <script type="text/javascript" src="{% static 'walks/main.js' %}"></script>
 {% endblock extra-head %}
 
@@ -21,13 +23,29 @@
                     <td>Date</td>
                     <td>Distance</td>
                     <td>Time</td>
+                    <td><!-- Actions column filler --></td>
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" name="date" ng-model="newWalk.date">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="distance" ng-model="newWalk.distance">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="time" ng-model="newWalk.time">
+                    </td>
+                    <td>
+                        <button class="btn" ng-click="saveNewWalk()">Save</button>
+                    </td>
+                </tr>
                 <tr ng-repeat="walk in walks">
                     <td>{{ walk.date }}</td>
                     <td>{{ walk.distance }}</td>
                     <td>{{ walk.time }}</td>
+                    <td></td>
                 </tr>
             </tbody>
 

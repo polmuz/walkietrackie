@@ -23,7 +23,7 @@ def walk_list_api(request):
     """
 
     if request.method == 'GET':
-        walks = Walk.objects.filter(user=request.user)
+        walks = Walk.objects.filter(user=request.user).order_by("-date")
         serializer = WalkSerializer(walks, many=True)
         return Response(serializer.data)
 

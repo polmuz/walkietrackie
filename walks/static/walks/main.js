@@ -1,8 +1,21 @@
 
-var myApp = angular.module('myApp',["ngResource"]);
+var myApp = angular.module('myApp',["ngResource", "ngCookies"]).run(
+  function($http, $resource, $cookies) {
+    $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+  }
+);
 
 myApp.controller('WalksController', ['$scope', '$resource', function($scope, $resource) {
-  var Walks = $resource('/api/v1/walks/');
+  var Walk = $resource('/api/v1/walks/');
 
-  $scope.walks = Walks.query();
+  $scope.walks = Walk.query();
+  $scope.newWalk = {};
+
+  $scope.saveNewWalk = function() {
+    var walk = new Walk($scope.newWalk);
+    walk.$save(function(){
+      $scope.newWalk = {};
+      $scope.walks = Walk.query();
+    });
+  }
 }]);
