@@ -44,11 +44,17 @@ myApp.controller('WalksController', ['$scope', '$resource', function($scope, $re
 
   $scope.saveNewWalk = function() {
     var walk = new Walk($scope.newWalk);
-    walk.$save(function(){
-      $scope.newWalk = {};
-      $scope.refreshWalks();
-    });
-  }
+    walk.$save(
+      walk,
+      function(){
+        $scope.newWalk = {};
+        $scope.refreshWalks();
+      },
+      function(r){
+        $scope.newWalk.errors = r.data;
+        console.log("error");
+      });
+  };
 
   $scope.removeWalk = function(walk) {
     walk.$remove(function(){

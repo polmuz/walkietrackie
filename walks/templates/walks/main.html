@@ -54,6 +54,20 @@
                     </td>
                 </tr>
 
+                <tr ng-show="newWalk.errors">
+                  <td colspan="6">
+                    <h3>Errors!</h3>
+                    <div class="text-danger" ng-repeat="(key, errors) in newWalk.errors">
+                      <h4>{{ key }}</h4>
+                      <ul>
+                        <li ng-repeat="error in errors">
+                          {{ error }}
+                        </li>
+                      </ul>
+                    </div>
+
+                  </td>
+                </tr>
                 <tr>
                     <td></td>
                     <td><span>Filter by date:</span></td>
