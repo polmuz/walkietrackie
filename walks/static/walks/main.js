@@ -103,7 +103,9 @@ myApp.controller("WalkController", ["$scope", function($scope){
 
   $scope.save = function() {
     $scope.editMode = false;
-    $scope.walk.$update();
+    $scope.walk.$update(function(){
+      $scope.refreshWalks();
+    });
   };
 
   $scope.remove = function() {
